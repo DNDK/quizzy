@@ -1,0 +1,270 @@
+@import url('https://fonts.googleapis.com/css2?family=Finlandica&family=Noto+Sans&&family=Titan+One&&display=swap');
+
+*{
+    margin: 0;
+    padding: 0;
+}
+
+body{
+    background-image: url("./dot-grid.webp");
+}
+
+nav a{
+    text-decoration: none;
+    margin: 20px;
+    font-size: 25px;
+}
+
+header{
+    background-color: #3255CD;
+    width: 90%;
+    margin: auto;
+    margin-top: 10px;
+    padding: 35px;
+    border-radius: .5em;
+    margin-bottom: 20px;
+    text-align: center;
+    font-size: 50px;
+    font-family: 'Titan One';
+}
+
+header a{
+    color: white;
+    text-decoration: none;
+}
+
+.nav-bar{
+    width: 100%;
+    height: 10vh;
+    margin: auto;
+    display: flex;
+    font-family: "Noto Sans", sans-serif;
+    font-weight: 900;
+    display: flex;
+    justify-content: center;
+
+}
+
+/* .user-card{
+    display: inline-flex;
+    padding: 10px 30px;
+    border: #3255CD 1px solid;
+    height: 100%;
+    box-sizing: border-box;
+    border: #3255CD 1px solid;
+    align-items: center;
+    justify-content: center;
+    font-size: 20px;
+    border-top-left-radius: .5em;
+    border-bottom-left-radius: .5em;
+    color: #3255CD;
+    background-color: white;
+}
+
+.user-card a{
+    color: #3255CD;
+    text-decoration: none;
+} */
+
+nav{
+    display: inline-flex;
+    background-color: #3255CD;
+    color: white;
+    height: 100%;
+    box-sizing: border-box;
+    align-items: center;
+    border: 1px solid #3255CD;
+    border-radius: .5em;
+    overflow: hidden;
+}
+
+nav a{
+    display: inline-flex;
+    color: white;
+    height: 100%;
+    margin: 0;
+    padding: 0 20px;
+    align-items: center;
+    transition: .3s;
+}
+
+nav a:hover{
+    background-color: white;
+    color: #3255CD
+}
+
+.users-page-header-logo{
+    display: inline-block;
+    font-size: 40px;
+    font-family: "Titan One";
+    margin: 30px;
+    padding: 20px;
+    border: 2px solid #3255CD;
+    border-radius: .5em;
+    background-color: white;
+}
+
+.users-page-header-logo a{
+    color: #3255CD;
+    text-decoration: none;
+}
+
+.users-page-header-label{
+    display: inline-block;
+    font-size: 35px;
+    font-family: "Arial Black", sans-serif;
+    font-weight: bold;
+    color: #3255CD;
+}
+
+.main{
+    display: flex;
+}
+
+.sidebar{
+    position: sticky;
+    top: 10%;
+    left: 0;
+    width: 10%;
+    height: 20%;
+    font-family: "Arial Black", sans-serif;
+}
+
+.sidebar-nav{
+    display: inline-flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 5% 20px 20px 0;
+    border-top-right-radius: .5em;
+    border-bottom-right-radius: .5em;
+    overflow: hidden;
+    border: #3255CD 1px solid;
+    width: 100%;
+    
+}
+
+.sidebar-nav a{
+    display: flex;
+    justify-content: center;
+    font-size: 20px;
+    text-decoration: none;
+    background-color: #3255CD;
+    color: white;
+    padding: 20px;
+    transition: .3s;
+    width: 100%;
+}
+
+.sidebar-nav a:hover{
+    background-color: white;
+    color: #3255CD;
+}
+
+.sidebar-footer{
+    font-family: "Noto Sans", sans-serif;
+    font-size: 10px;
+    padding: 10px;
+    display: flex;
+    justify-content: left;
+    color: rgb(202, 201, 201);
+}
+
+.content{
+    display: inline-block;
+    width: 60%;
+    margin: 0 3% 5% 10%;
+    padding: 30px;
+    border-radius: .5em;
+    font-family: "Finlandica", sans-serif;
+}
+
+.quiz-list-item{
+    display: inline-block;
+    background-color: white;
+    margin: 30px;
+    padding: 10px;
+    border-radius: .5em;
+    width: 100%;
+    height: 30vh;
+    border: #3255CD solid 1px;
+    box-shadow: #3255CD 0px 3px 3px;
+    position: relative;
+    transition: .3s;
+}
+
+.quiz-list-item:hover{
+    box-shadow: 0 5px 10px #3255CD;
+}
+
+.quiz-info{
+    display: inline-flex;
+    align-items: center;
+}
+
+.quiz-list-item a{
+    color: black;
+    text-decoration: none;
+    font-weight: bold;
+    font-size: 30px;
+    transition: .3s;
+    margin-right: 10px;
+}
+
+.quiz-list-item a:hover{
+    color: #3255CD
+}
+
+.quiz-author{
+    display: inline-flex;
+    
+    margin-left: 10px;
+    padding: 10px 0;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.quiz-author a{
+    font-size: 15px;
+}
+
+.quiz-description{
+    color: gray;
+    margin: 15px;
+
+}
+
+.quiz-list-name{
+    display: inline-block;
+    margin: 10px
+}
+
+.likes-counter{
+    color: red;
+    font-weight: bold;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    margin: 30px;
+    border: 1px red solid;
+    padding: 5px;
+    border-radius: 1em;
+    display: inline-flex;
+    width: 8vh;
+    justify-content: center;
+    font-size: 20px;
+}
+
+.likes-counter::after{
+    display: inline-block;
+    content: "❤";
+    margin-left: 5px;
+}
+
+.quiz-creation-date{
+    margin: 30px;
+    font-weight: bold;
+    font-size: 10px;
+    position: absolute;
+    bottom: 0;
+    right: 0;
+}

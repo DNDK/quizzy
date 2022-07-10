@@ -1,0 +1,60 @@
+.result-page{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.result-page-congratulation{
+    display: inline-block;
+    font-size: 47px;
+    color: #3255CD;
+}
+
+.result{
+    display: inline-block;
+    margin: 50px;
+    padding: 30px;
+    border: 1px #3255CD solid;
+    border-radius: .5em;
+    box-shadow: #3255CD 0px 1px 3px;
+    font-size: 50px;
+    color: #3255CD;
+    font-weight: bold;
+    background-color: white;
+}
+
+.likes-section{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.like-button{
+    display: flex;
+    color: red;
+    font-size: 30px;
+    border: 1px red solid;
+    width: 50%;
+    padding: 5px;
+    justify-content: center;
+    border-radius: 1em;
+    cursor: pointer;
+    margin: 10px 0
+
+}
+
+.like-button::after{
+    content: "❤";
+    margin: 0 5px;
+}
+
+.liked-button{
+    color:white;
+    background-color: red;
+}
+
+.likes-message{
+    display: flex;
+    margin: 10px 0;
+    color: gray;    
+}

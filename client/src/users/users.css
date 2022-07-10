@@ -1,0 +1,73 @@
+.users-page{
+    font-family: "Noto Sans", sans-serif;
+    width: 100%;
+}
+
+.form{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.user-form{
+    display: flex;
+    width: 20%;
+    margin: auto;
+    border: 1px solid #3255CD;
+    padding: 30px;
+    align-items: center;
+    flex-direction: column;
+    justify-content: center;
+    border-radius: .5em;
+    background-color: white;
+}
+
+.user-form-header{
+    font-family: "Noto Sans", sans-serif;
+    color: #3255CD;
+    font-weight: bold;
+    margin: 20px 0;
+}
+
+.user-form input{
+    text-align: center;
+    width: 90%;
+    padding: 10px;
+    border: 1px #3255CD solid;
+    border-radius: .5em;
+    margin: 10px 0;
+
+}
+
+.submit-button{
+    width: 90%;
+    display: flex;
+    justify-content: center;
+}
+
+.error-message{
+    color: red;
+    margin: 20px 0;
+}
+
+.register-message{
+    color: gray;
+    margin: 20px 0;
+}
+
+.register-message a{
+    color: #3255CD;
+    text-decoration: none;
+    transition: .3s;
+}
+
+.register-message a:hover{
+    color: gray
+}
+
+.button:disabled{
+    background-color: #A2C3FF;
+    color: #eee;
+    pointer-events: none;
+    border: #A2C3FF 1px solid;
+}

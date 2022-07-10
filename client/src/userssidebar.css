@@ -1,0 +1,137 @@
+.right-sidebar{
+    width: 30%;
+    margin: 5% 0 5% 5%;
+    
+    
+}
+
+.sidebar-user-management, .sidebar-recent-quizzes, .sidebar-footer {
+    border: 1px #3255CD solid;
+    border-right: none;
+    padding: 20px;
+    border-top-left-radius: .5em;
+    border-bottom-left-radius: .5em;
+    margin-bottom: 50px;
+    background-color: white;
+}
+
+.sidebar-login-message{
+    display: flex;
+    justify-content: center;
+    color: black;
+    font-family: "Arial Black", sans-serif;
+    
+}
+
+.sidebar-login-message{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.sidebar-login-message a{
+    color: #3255CD;
+    text-decoration: none;
+    display: block;
+    font-size: 90%;
+    transition: .3s;
+
+}
+
+.sidebar-login-message a:hover{
+    color: gray;
+}
+
+.sidebar-register-message{
+    font-family: "Noto Sans";
+    font-size: 10px;
+    margin: 10px 0 0 0;
+    color: gray;
+    text-align: center;
+}
+
+.sidebar-register-message a{
+    color: #3255CD;
+    text-decoration: none;
+}
+
+.user{
+    font-family: "Noto Sans", sans-serif;
+}
+
+.sidebar-username{
+    display: block;
+    width: 100%;
+    font-size: 160%;
+    color: #3255CD;
+    font-weight: bold;
+}
+
+.sidebar-user-quizzes{
+    margin-top: 20px;
+}
+
+.sidebar-user-quizzes-header{
+    font-weight: bold;
+    margin-bottom: 20px;
+}
+
+.sidebar-user-quiz{
+    display: block;
+    width: 80%;
+    border: 1px #3255CD solid;
+    margin:  10px 0 20px 0;
+    padding: 10px;
+    border-radius: .5em;
+}
+
+.sidebar-user-quiz-name{
+    display: inline-flex;
+    margin: 0 10px 0 0;
+}
+
+.sidebar-user-quiz-name a{
+    color: black;
+    text-decoration: none;
+    transition: .3s;
+}
+
+.sidebar-user-quiz-name a:hover{
+    color:#3255CD;
+}
+
+.sidebar-user-quiz-likes{
+    display: inline-flex;
+    margin: 0 0 0 10px;
+    color: red;
+    float: right;   
+}
+
+.sidebar-user-quiz-likes::after{
+    content: "❤";
+}
+
+.no-quizzes-message{
+    color: gray;
+}
+
+.no-quizzes-message a{
+    color: #3255CD;
+    text-decoration: none;
+    transition: .3s;
+}
+
+.no-quizzes-message a:hover{
+    color: gray;
+}
+
+.sidebar-recent-quizzes{
+    font-family: "Noto Sans";
+    
+}
+
+.sticky{
+    position: sticky;
+    top: 10%;
+    right:0;
+}
