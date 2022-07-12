@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from "react";
-import {Link, useSearchParams} from "react-router-dom";
+import {Link, useSearchParams, Navigate} from "react-router-dom";
 
 
 function Quiz_item(props){
@@ -38,12 +38,13 @@ function QuizzesList(props){
     const [currentPage, setCurrentPage] = useState(1);
     const [fetching, setFetching] = useState(true);
     const [category, setCategory] = useState("");
+    const [showFollowMessage, setShowFollowMessage] = useState(false);
 
     const [params, ] = useSearchParams();
 
     useEffect(() => {
-        document.addEventListener("scroll", handleScroll);  
-        fetch("/api/quizzes/getPagesCount").then(res=>res.json()).then(res=>{
+        document.addEventListener("scroll", handleScroll);
+        fetch(`/api/quizzes/getPagesCount${params.category ? `?category=${params.category}` : ""}`).then(res=>res.json()).then(res=>{
             setPageCount(res.pages);
         })
         return () => {
@@ -60,7 +61,7 @@ function QuizzesList(props){
         if(params.get("category")){
             setCurrentPage(1);
             fetch(`/api/quizzes?category=${params.get("category")}&page=${currentPage}`).then(res=>res.json()).then(res=>{
-            setQuizzes(res)
+            setQuizzes(res.quizzes)
         }).finally(() => {
             setFetching(false)
         })
@@ -71,7 +72,8 @@ function QuizzesList(props){
             else url = "/api/quizzes";
             if(fetching){
                 fetch(`${url}?page=${currentPage}`).then(res=>res.json()).then(res=>{
-                    setQuizzes(quizzes => [...quizzes, ...res]);
+                    if(res.show_follow_message) setShowFollowMessage(true);
+                    setQuizzes(quizzes => [...quizzes, ...res.quizzes]);
                     setCurrentPage(prevpage => prevpage + 1);
                 }).finally(()=>{
                     setFetching(false);
@@ -81,10 +83,6 @@ function QuizzesList(props){
     }, [fetching])
 
     const handleScroll = (event) => {
-        const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
-
-        const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
-
         if(event.target.documentElement.scrollHeight - (event.target.documentElement.scrollTop + window.innerHeight) < 100 
             && currentPage <= pageCount){
                 setFetching(true);
@@ -111,7 +109,13 @@ function QuizzesList(props){
         :
         <>{
             !fetching ? 
-            <div className = "message">Здесь пока что нет викторин</div>
+            <div className = "noquizzes-message">{showFollowMessage ? 
+                <>
+                Вы пока ни на кого не подписались. Подпишитесь на кого-нибудь, чтобы видеть здесь его викторины&nbsp;
+                <Link to = "/users/popular" className = "popular-link">Популярные люди</Link>
+                </>
+                :
+                < Navigate to = "/quizzes/best"/>}</div>
             :
             <div className = "message">Загрузка...</div>
         }</>

@@ -94,7 +94,7 @@ function RecentQuizzes(props){
     const [quizzes, setQuizzes] = useState([]);
     useEffect(() => {
         fetch("/api/quizzes/recent").then(res=>res.json()).then(res=>{
-            setQuizzes(res);
+            setQuizzes(res.quizzes);
         });
     }, []);
 

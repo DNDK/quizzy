@@ -1,5 +1,3 @@
-const { response } = require("express");
-
 const router = require("express").Router();
 const User = require("./db").User;
 const Quiz = require("./db").Quiz;
@@ -25,6 +23,36 @@ router.get("/user", async (req, res) => {
         })
     }
 })
+
+router.get("/popular", async (req, res) => {
+    try{
+        let users = await User.find().exec();
+        users.sort((a, b) => b.followers.length - a.followers.length);
+
+        let usersResponse = [];
+
+        users.map((user) => {
+            usersResponse.push({
+                id: user._id,
+                username: user.username,
+                followers: user.followers.length
+            })
+        })
+
+        res.send({
+            users: usersResponse,
+            ok: true
+        });
+    }catch(err){
+        console.error(err);
+        res.status(500);
+        res.send({
+            ok: false,
+            message: "Server error"
+        });
+    }
+})
+
 
 router.post("/register", async (req, res) => {
     let find_user = await User.findOne({username: req.body.username}).exec();
@@ -143,7 +171,6 @@ router.post("/logout", (req, res) => {
         })
     }
 })
-
 
 
 module.exports = router;

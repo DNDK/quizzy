@@ -5,6 +5,7 @@ const session = require("express-session");
 const csrf = require("csurf");
 const bodyParser = require("body-parser");
 const cookieParser = require("cookie-parser");
+const path = require("path");
 require("dotenv").config();
 
 app.use(express.json());
@@ -49,8 +50,15 @@ app.get("/api/getYear", (req, res) => {
   })
 });
 
-const PORT = process.env.PORT || 8000;
+if(process.env.NODE_ENV === "production"){
+  app.use(express.static(path.join(__dirname, "client", "build")));
+  app.get("*", (req, res) => {
+    res.sendFile(path.resolve(__dirname, "client", "build", "index.html"))
+  })
+}
 
-app.listen(80, () => {
+const PORT = process.env.PORT || 80;
+
+app.listen(PORT, () => {
   console.log(PORT);
 })

@@ -12,6 +12,7 @@ import Profile from "./users/profile";
 import SideBar from "./sidebar";
 import BestQuizzes from "./quizzes/bestquizzes";
 import UserSidebar from "./usersidebar";
+import PopularUsers from "./users/popular";
 import {
     BrowserRouter as Router,
     Routes,
@@ -39,6 +40,7 @@ function Content(){
                 <Route path = "/users/register" element = {<RegistrationForm/>}/>
                 <Route path = "/users/:id" element = {<Profile />}/>
                 <Route path = "/quizzes/best" element = {<BestQuizzes/>}/>
+                <Route path = "/users/popular" element = {<PopularUsers/>}/>
             </Routes>
         </div>
         {location.pathname.includes("quizzes") ? (<UserSidebar/>) : ""}

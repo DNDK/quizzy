@@ -28,8 +28,9 @@ const quiz = new mongoose.Schema({
         type: mongoose.Types.ObjectId,
         ref: "User"
     }],
+    likes_len: {type: Number, default: 0},
     date: {type: Date, default: Date.now(), required: true},
-    category: {type: String, reuired: true},
+    category: {type: String, required: true},
     author: {type: mongoose.Types.ObjectId, ref: "User", required: true}
 });
 

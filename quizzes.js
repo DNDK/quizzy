@@ -1,5 +1,3 @@
-const { QuizzesList } = require("./client/src/quizzes/quizzes");
-
 const router = require("express").Router();
 const Quiz = require("./db").Quiz;
 
@@ -15,7 +13,7 @@ router.get("/getPagesCount", async (req, res) => {
     }
     else{
         if(!req.session.user){
-            quizzes = await Quiz.find({likes_len: {$gt: 0}}).exec();
+            quizzes = await Quiz.find().exec();
         }
         else{
             quizzes = await Quiz.find({author: {$in: req.session.user.following}}).exec();
@@ -25,7 +23,6 @@ router.get("/getPagesCount", async (req, res) => {
      while(quizzes.length != 0){
         paginated.push(quizzes.splice(0, 10));
     }
-
     res.send({
         pages: paginated.length
     });
@@ -33,37 +30,66 @@ router.get("/getPagesCount", async (req, res) => {
 })
 
 router.get("/", (req, res) => {
-    if(req.session.user){
-        let page = req.query.page;
-        Quiz.find({author: {$in: req.session.user.following}})
-        .sort("-date")
-        .select("_id name date likes description author questions._id")
-        .limit(10)
-        .skip(10)
-        .exec((err, quizzes) => {
+    let page = req.query.page
+    if(req.query.category){
+        Quiz.find({category: req.query.category}).sort("-date").limit(10).skip(10*page).exec((err, quizzes) => {
             if(err){
-                console.err(err);
+                console.error(err);
                 res.status(500);
                 res.send({
-                    ok:false,
+                    ok: false,
                     message: "Server error"
+                });
+                return;
+            }
+            res.send({
+                ok: true,
+                quizzes: quizzes    
+            })
+        })
+    }
+    else{
+        if(req.session.user){
+            if(req.session.user.following.length === 0){
+                res.send({
+                    ok: true,
+                    quizzes: [],
+                    message: "Follow somebody to see his quizzes",
+                    show_follow_message: true
                 })
                 return;
             }
+            Quiz.find({author: {$in: req.session.user.following}})
+            .sort("-date")
+            .select("_id name date likes description author questions._id")
+            .limit(10)
+            .skip(10 * page)
+            .exec((err, quizzes) => {
+                if(err){
+                    console.err(err);
+                    res.status(500);
+                    res.send({
+                        ok:false,
+                        message: "Server error"
+                    })
+                    return;
+                }
 
-            res.send(quizzes);
-        });
-    }
-    else{
-        res.send({
-            redirect: true,
-            message: "Not authenticated"
-        })
+                res.send({quizzes, ok: true});
+            });
+        }
+        else{
+            res.send({
+                redirect: true,
+                message: "Not authenticated",
+                quizzes: []
+            })
+        }
     }
 });
 
 router.get("/recent", (req, res) => {
-    Quiz.find().limit(5).exec((err, quizzes) => {
+    Quiz.find().sort("-date").limit(5).exec((err, quizzes) => {
         if(err){
             console.error(err);
             res.status(500);
@@ -72,13 +98,13 @@ router.get("/recent", (req, res) => {
                 ok: false
             });
         }
-        res.send(quizzes);
+        res.send({quizzes, ok: true});
     })
 });
 
 router.get("/best", (req, res) => {
     let page = req.query.page;
-    Quiz.find({likes: {$gt: 0}}).sort("-likes").limit(10).skip(10 * page).exec((err, quizzes) => {
+    Quiz.find().sort("-likes_len").limit(10).skip(10 * (page-1)).exec((err, quizzes) => {
         if(err){
             console.error(err);
             res.status(500);
@@ -87,7 +113,7 @@ router.get("/best", (req, res) => {
                 message: "Server error"
             });
         }
-        res.send(quizzes);
+        res.send({quizzes, ok: true});
     });
 })
 
@@ -142,7 +168,7 @@ router.post("/create", (req, res) => {
 
 router.post("/submit", async (req, res) => {
     if(req.session.user){
-        let quiz = await Quiz.findById(req.body.quiz_id).exec();
+        let quiz = await Quiz.findById(req.body.id).exec();
         let true_options = [];
         quiz.questions.map((question, index) => {
             let option = question.options.findIndex(opt => opt.is_true);
@@ -151,14 +177,15 @@ router.post("/submit", async (req, res) => {
 
         let result = 0;
 
-        req.body.answers.map(option => {
-            let ans = true_options.find(opt => opt.question === option.question).option;
-            if(option.option == ans){
+        req.body.answers.map(answer => {
+            let ans = true_options.find(opt => opt.question === answer.question).option;
+            console.log(ans, answer)
+            if(answer.answer == ans){
                 result+=1;
             }
         });
 
-        result = result/quiz.questions.length * 100;
+        result = result * 100/quiz.questions.length;
 
         quiz.results.push({
             result,
@@ -170,10 +197,11 @@ router.post("/submit", async (req, res) => {
                 result,
             })
         }).catch(err=>{
+            console.error(err);
             res.status(500);
             res.send({
                 message: "Server error",
-                ok: true
+                ok: false
             })
         });
     }
@@ -185,6 +213,52 @@ router.post("/submit", async (req, res) => {
         })
     }
 });
+
+router.post("/like", async (req, res) => {
+    if(req.session.user){
+        let quiz = await Quiz.findById(req.body.quiz_id).exec();
+        console.log(quiz);
+
+        if(quiz === null){
+            res.status(400);
+            res.send({
+                ok: false,
+                message: "Quiz with such id is not found"
+            });
+            return;
+        }
+        if(quiz.likes.includes(req.session.user._id)){
+            let index = quiz.likes.findIndex(like => like === req.session.user._id);
+            quiz.likes.splice(index, 1);
+            quiz.likes_len -= 1; 
+        }
+        else{
+            quiz.likes.push(req.session.user._id);
+            quiz.likes_len+=1;
+        }
+
+        quiz.save().then(quiz=>{
+            res.send({
+                ok: true,
+            })
+        }).catch(err => {
+            console.error(err);
+
+            res.status(500);
+            res.send({
+                ok: false,
+                message: "Server error"
+            })
+        })
+    }
+    else{
+        res.status(403);
+        res.send({
+            ok: false,
+            message: "Authorization required"
+        })
+    }
+})
 
 router.delete("/:id", (req, res) => {
 

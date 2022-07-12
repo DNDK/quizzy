@@ -1,0 +1,52 @@
+.popular-users{
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.user-card{
+    display: inline-flex;
+    background-color: white;
+    margin: 30px;
+    padding: 20px;
+    border-radius: .5em;
+    width: 40%;
+    border: #3255CD solid 1px;
+    box-shadow: #3255CD 0px 3px 3px;
+    position: relative;
+    transition: .3s;
+    align-items: center;
+}
+
+.username-card{
+    display: inline-block;
+    color: #3255CD;
+    font-weight: bold;
+    font-size: 130%;
+}
+
+.username-card a{
+    color: #3255CD;
+    text-decoration: none;
+    transition: .3s;
+}
+
+.username-card a:hover{
+    color: gray;
+}
+
+.user-followers{
+    margin-right: auto;
+    margin-left: 10px;
+}
+
+.user-followers::before{
+    content: "Подписчики: ";
+    color: #3255CD;
+}
+
+.follow-button{
+    margin: 0 10px;
+}
